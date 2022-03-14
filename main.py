@@ -1,7 +1,19 @@
 import os, sys
+from os import listdir
 from os.path import isfile, join
-import numpy as np
+
 from PIL import Image
+import h5py
+import numpy as np
+
+#Keras
+from keras.models import model_from_json
+from keras.models import Model
+
+sys.path.insert(0, './lib/')
+from help_functions import load_hdf5, write_hdf5, rgb2gray, group_images, visualize, masks_Unet, pred_to_imgs
+from extract_patches import recompone, recompone_overlap, paint_border, paint_border_overlap, extract_ordered_overlap, kill_border, pred_not_only_FOV, get_data_testing, get_data_testing_overlap
+from pre_processing import my_PreProc
 
 PATH_INPUT = "input/"
 PATH_OUTPUT = "output/"
@@ -12,38 +24,6 @@ model_path = "model/weights.hdf5"
 architechture_path = "model/architecture.json"
 
 os.makedirs("output", exist_ok=True)
-
-import h5py
-import numpy as np
-from PIL import Image
-
-from os import listdir
-from os.path import isfile, join
-
-import numpy as np
-
-#Keras
-from keras.models import model_from_json
-from keras.models import Model
-
-import sys
-sys.path.insert(0, './lib/')
-# help_functions.py
-from help_functions import load_hdf5, write_hdf5, rgb2gray, group_images, visualize, masks_Unet, pred_to_imgs
-
-# extract_patches.py
-from extract_patches import recompone
-from extract_patches import recompone_overlap
-from extract_patches import paint_border
-from extract_patches import paint_border_overlap
-from extract_patches import extract_ordered_overlap
-from extract_patches import kill_border
-from extract_patches import pred_not_only_FOV
-from extract_patches import get_data_testing
-from extract_patches import get_data_testing_overlap
-
-# pre_processing.py
-from pre_processing import my_PreProc
 
 def write_hdf5(arr,outfile):
     with h5py.File(outfile,"w") as f:
