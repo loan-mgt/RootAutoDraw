@@ -11,6 +11,8 @@ original_imgs_test = PATH_INPUT
 model_path = "model/weights.hdf5"
 architechture_path = "model/architecture.json"
 
+os.makedirs("output", exist_ok=True)
+
 import h5py
 import numpy as np
 from PIL import Image
@@ -18,9 +20,7 @@ from PIL import Image
 from os import listdir
 from os.path import isfile, join
 
-#Python
 import numpy as np
-# import ConfigParser
 
 #Keras
 from keras.models import model_from_json
