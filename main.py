@@ -8,6 +8,7 @@ import numpy as np
 
 # Keras
 import tensorflow as tf
+tf.keras.backend.set_image_data_format('channels_last')
 
 sys.path.insert(0, './lib/')
 from help_functions import load_hdf5, write_hdf5, rgb2gray, group_images, visualize, masks_Unet, pred_to_imgs
