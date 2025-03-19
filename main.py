@@ -7,7 +7,8 @@ import h5py
 import numpy as np
 
 # Keras
-from keras.models import model_from_json
+import tensorflow as tf
+from tensorflow.keras.models import model_from_json
 
 sys.path.insert(0, './lib/')
 from help_functions import load_hdf5, write_hdf5, rgb2gray, group_images, visualize, masks_Unet, pred_to_imgs
@@ -71,7 +72,15 @@ def createDir(directory):
 
 if __name__ == '__main__':
     # Load model
-    model = model_from_json(open(architechture_path).read())
+    with open(architechture_path, 'r') as json_file:
+        model_json = json_file.read()
+
+    # This is the key part - use custom_objects to handle older Keras models
+    custom_objects = {
+        'Model': tf.keras.Model,
+    }
+
+    model = model_from_json(model_json, custom_objects=custom_objects)
     model.load_weights(model_path)
     
     for filename in listdir("input"):
