@@ -27,5 +27,5 @@ docker build . -t root-auto-draw
 
 run:
 ```bash
-docker run -v input:/app/input:ro -v output:/app/output root-auto-draw
+docker run -v ./input:/app/input:ro -v ./output:/app/output root-auto-draw
 ```
