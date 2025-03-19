@@ -17,3 +17,15 @@ requirements bigger than need, exported from a working env
 ## Known requirement
 - keras==2.1.5
 - tensorflow==2.19.0
+
+## Docker
+
+build:
+```bash
+docker build . -t root-auto-draw
+```
+
+run:
+```bash
+docker run -v input:/app/input:ro -v output:/app/output root-auto-draw
+```
