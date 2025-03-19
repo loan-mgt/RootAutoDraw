@@ -9,9 +9,8 @@ from help_functions import group_images
 
 from pre_processing import my_PreProc
 
-#### Tai was here BEGIN
-from scipy import misc, rot90, flipud
-#### Tai was here END
+from scipy import misc
+from numpy import rot90, flipud
 
 #To select the same images
 # random.seed(10)
