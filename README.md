@@ -6,3 +6,14 @@ At the same time, follow this video for instruction: https://youtu.be/DLyUSksOkw
 
 Feel free to create issues for questions.
 Thank you!
+
+## Models
+.keras is the same as .hdf5 converted to the enw tf format
+
+
+## Warning
+requirements bigger than need, exported from a working env
+
+## Known requirement
+- keras==2.1.5
+- tensorflow==2.19.0
