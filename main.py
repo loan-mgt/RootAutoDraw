@@ -8,7 +8,6 @@ import numpy as np
 
 # Keras
 import tensorflow as tf
-from tensorflow.keras.models import model_from_json
 
 sys.path.insert(0, './lib/')
 from help_functions import load_hdf5, write_hdf5, rgb2gray, group_images, visualize, masks_Unet, pred_to_imgs
@@ -21,7 +20,7 @@ PATH_OUTPUT = "output/"
 
 original_imgs_test = PATH_INPUT
 
-model_path = "model/weights.hdf5"
+model_path = "model/weights.keras"
 architechture_path = "model/architecture.json"
 
 os.makedirs("output", exist_ok=True)
@@ -71,17 +70,8 @@ def createDir(directory):
 
 
 if __name__ == '__main__':
-    # Load model
-    with open(architechture_path, 'r') as json_file:
-        model_json = json_file.read()
-
-    # This is the key part - use custom_objects to handle older Keras models
-    custom_objects = {
-        'Model': tf.keras.Model,
-    }
-
-    model = model_from_json(model_json, custom_objects=custom_objects)
-    model.load_weights(model_path)
+    # Load model  
+    model = tf.keras.models.load_model(model_path)
     
     for filename in listdir("input"):
         if filename == ".ipynb_checkpoints":
