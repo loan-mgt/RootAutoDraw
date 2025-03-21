@@ -27,6 +27,10 @@ def preprocess_image(img: np.ndarray) -> np.ndarray:
     Returns:
         Preprocessed image normalized to 0-1 range
     """
+    # Check if image is already in the right format
+    if img.shape[1] != 3 and img.shape[1] != 1:
+        # Assume channels_last format and convert
+        img = np.transpose(img, (0, 3, 1, 2))
     # Normalize
     img_norm = (img - np.mean(img)) / np.std(img)
     img_norm = (img_norm - np.min(img_norm)) / (np.max(img_norm) - np.min(img_norm)) * 255
@@ -128,6 +132,7 @@ def process_predictions(predictions: np.ndarray, patch_size: int) -> np.ndarray:
         Standardized patches ready for image reconstruction
     """
     pred_patches = np.empty((predictions.shape[0], 1, patch_size, patch_size))
+    pred_patches = np.clip(pred_patches, 0, 1)
     
     for i in range(predictions.shape[0]):
         # Handle different prediction formats
@@ -168,7 +173,11 @@ def process_image(image_path: str, model: tf.keras.Model, patch_size: int, strid
         # Convert to numpy array and adjust dimensions for model
         img_array = np.array(image)
         img_array = np.expand_dims(img_array, 0)  # Add batch dimension
-        img_array = np.transpose(img_array, (0, 3, 1, 2))  # Channels first
+        if tf.keras.backend.image_data_format() == 'channels_first':
+            img_array = np.transpose(img_array, (0, 3, 1, 2))
+        else:
+            # Keep channels_last format for CPU processing
+            pass
         
         # Process image pipeline
         img_processed = preprocess_image(img_array)
